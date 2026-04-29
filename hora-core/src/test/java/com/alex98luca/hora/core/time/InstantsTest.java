@@ -101,10 +101,11 @@ class InstantsTest {
     void shouldRejectIntervalIndexOutsideLocalDay() {
         LocalDate date = LocalDate.of(2026, 6, 15);
         Instant instant = ZonedDateTime.of(2026, 6, 16, 0, 0, 0, 0, rome).toInstant();
+        Duration quarterHour = Duration.ofMinutes(15);
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> Instants.intervalIndexInDay(instant, date, rome, Duration.ofMinutes(15))
+            () -> Instants.intervalIndexInDay(instant, date, rome, quarterHour)
         );
     }
 }

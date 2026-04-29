@@ -1,5 +1,12 @@
 package com.alex98luca.hora.core.time;
 
+import static com.alex98luca.hora.core.time.TimeValidationMessages.DATE;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.INSTANT;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.PERIOD_DURATION;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.ZONE;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.mustBePositive;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.mustNotBeNull;
+
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +27,12 @@ public final class ZonedDays {
      * @throws IllegalArgumentException if periodDuration is zero or negative
      */
     public static long countIntervalsInDay(LocalDate date, ZoneId zone, Duration periodDuration) {
-        Objects.requireNonNull(date, "date must not be null");
-        Objects.requireNonNull(zone, "zone must not be null");
-        Objects.requireNonNull(periodDuration, "periodDuration must not be null");
+        Objects.requireNonNull(date, mustNotBeNull(DATE));
+        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
+        Objects.requireNonNull(periodDuration, mustNotBeNull(PERIOD_DURATION));
 
         if (periodDuration.isZero() || periodDuration.isNegative()) {
-            throw new IllegalArgumentException("periodDuration must be positive");
+            throw new IllegalArgumentException(mustBePositive(PERIOD_DURATION));
         }
 
         return durationOfDay(date, zone).dividedBy(periodDuration);
@@ -64,8 +71,8 @@ public final class ZonedDays {
      * doesn't exist (DST skip), it returns the first valid time of that day.
      */
     public static ZonedDateTime getSafeStartOfDay(LocalDate date, ZoneId zone) {
-        Objects.requireNonNull(date, "date must not be null");
-        Objects.requireNonNull(zone, "zone must not be null");
+        Objects.requireNonNull(date, mustNotBeNull(DATE));
+        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
         return date.atStartOfDay(zone);
     }
 
@@ -73,8 +80,8 @@ public final class ZonedDays {
      * Safely gets the start of the next day in the specified zone.
      */
     public static ZonedDateTime getSafeStartOfNextDay(LocalDate date, ZoneId zone) {
-        Objects.requireNonNull(date, "date must not be null");
-        Objects.requireNonNull(zone, "zone must not be null");
+        Objects.requireNonNull(date, mustNotBeNull(DATE));
+        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
         return date.plusDays(1).atStartOfDay(zone);
     }
 
@@ -90,9 +97,9 @@ public final class ZonedDays {
      * Checks whether an instant falls inside the given local day.
      */
     public static boolean contains(LocalDate date, ZoneId zone, Instant instant) {
-        Objects.requireNonNull(date, "date must not be null");
-        Objects.requireNonNull(zone, "zone must not be null");
-        Objects.requireNonNull(instant, "instant must not be null");
+        Objects.requireNonNull(date, mustNotBeNull(DATE));
+        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
+        Objects.requireNonNull(instant, mustNotBeNull(INSTANT));
 
         return Instants.isWithin(
             instant,
@@ -105,12 +112,12 @@ public final class ZonedDays {
      * Returns the start of a zero-based interval inside the local day.
      */
     public static ZonedDateTime intervalStart(LocalDate date, ZoneId zone, Duration periodDuration, long index) {
-        Objects.requireNonNull(date, "date must not be null");
-        Objects.requireNonNull(zone, "zone must not be null");
-        Objects.requireNonNull(periodDuration, "periodDuration must not be null");
+        Objects.requireNonNull(date, mustNotBeNull(DATE));
+        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
+        Objects.requireNonNull(periodDuration, mustNotBeNull(PERIOD_DURATION));
 
         if (periodDuration.isZero() || periodDuration.isNegative()) {
-            throw new IllegalArgumentException("periodDuration must be positive");
+            throw new IllegalArgumentException(mustBePositive(PERIOD_DURATION));
         }
 
         long intervalCount = countIntervalsInDay(date, zone, periodDuration);

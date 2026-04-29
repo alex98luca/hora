@@ -1,5 +1,14 @@
 package com.alex98luca.hora.core.time;
 
+import static com.alex98luca.hora.core.time.TimeValidationMessages.DATE;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.END_EXCLUSIVE;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.INSTANT;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.INTERVAL;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.START_INCLUSIVE;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.ZONE;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.mustBePositive;
+import static com.alex98luca.hora.core.time.TimeValidationMessages.mustNotBeNull;
+
 import java.time.*;
 import java.util.Objects;
 
@@ -38,8 +47,8 @@ public final class Instants {
      * first valid time for that date.
      */
     public static Instant startOfDay(LocalDate date, ZoneId zone) {
-        Objects.requireNonNull(date, "date must not be null");
-        Objects.requireNonNull(zone, "zone must not be null");
+        Objects.requireNonNull(date, mustNotBeNull(DATE));
+        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
         return date.atStartOfDay(zone).toInstant();
     }
 
@@ -48,8 +57,8 @@ public final class Instants {
      * Prefer this over 23:59:59.999 style end-of-day values.
      */
     public static Instant startOfNextDay(LocalDate date, ZoneId zone) {
-        Objects.requireNonNull(date, "date must not be null");
-        Objects.requireNonNull(zone, "zone must not be null");
+        Objects.requireNonNull(date, mustNotBeNull(DATE));
+        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
         return startOfDay(date.plusDays(1), zone);
     }
 
@@ -66,9 +75,9 @@ public final class Instants {
      * startInclusive <= instant < endExclusive.
      */
     public static boolean isWithin(Instant instant, Instant startInclusive, Instant endExclusive) {
-        Objects.requireNonNull(instant, "instant must not be null");
-        Objects.requireNonNull(startInclusive, "startInclusive must not be null");
-        Objects.requireNonNull(endExclusive, "endExclusive must not be null");
+        Objects.requireNonNull(instant, mustNotBeNull(INSTANT));
+        Objects.requireNonNull(startInclusive, mustNotBeNull(START_INCLUSIVE));
+        Objects.requireNonNull(endExclusive, mustNotBeNull(END_EXCLUSIVE));
 
         if (endExclusive.isBefore(startInclusive)) {
             throw new IllegalArgumentException("endExclusive must not be before startInclusive");
@@ -81,8 +90,8 @@ public final class Instants {
      * Floors an instant to the previous aligned interval boundary, using the Unix epoch as origin.
      */
     public static Instant floorToInterval(Instant instant, Duration interval) {
-        Objects.requireNonNull(instant, "instant must not be null");
-        validatePositive(interval, "interval");
+        Objects.requireNonNull(instant, mustNotBeNull(INSTANT));
+        validateInterval(interval);
 
         long intervalNanos = interval.toNanos();
         long epochNanos = Math.addExact(
@@ -109,8 +118,8 @@ public final class Instants {
      * Returns the zero-based interval index of an instant inside a local day.
      */
     public static long intervalIndexInDay(Instant instant, LocalDate date, ZoneId zone, Duration interval) {
-        Objects.requireNonNull(instant, "instant must not be null");
-        validatePositive(interval, "interval");
+        Objects.requireNonNull(instant, mustNotBeNull(INSTANT));
+        validateInterval(interval);
 
         Instant dayStart = startOfDay(date, zone);
         Instant dayEnd = startOfNextDay(date, zone);
@@ -122,11 +131,11 @@ public final class Instants {
         return Duration.between(dayStart, instant).dividedBy(interval);
     }
 
-    private static void validatePositive(Duration duration, String name) {
-        Objects.requireNonNull(duration, name + " must not be null");
+    private static void validateInterval(Duration duration) {
+        Objects.requireNonNull(duration, mustNotBeNull(INTERVAL));
 
         if (duration.isZero() || duration.isNegative()) {
-            throw new IllegalArgumentException(name + " must be positive");
+            throw new IllegalArgumentException(mustBePositive(INTERVAL));
         }
     }
 }

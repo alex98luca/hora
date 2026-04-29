@@ -198,9 +198,10 @@ class ZonedDaysTest {
         @DisplayName("Should throw exception for interval index outside the day")
         void testIntervalStartIndexOutsideDayThrows() {
             LocalDate date = LocalDate.of(2026, 6, 15);
+            Duration hour = Duration.ofHours(1);
 
             assertThrows(IllegalArgumentException.class, () ->
-                ZonedDays.intervalStart(date, rome, Duration.ofHours(1), 24)
+                ZonedDays.intervalStart(date, rome, hour, 24)
             );
         }
     }
