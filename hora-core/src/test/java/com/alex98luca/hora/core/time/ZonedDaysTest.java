@@ -4,9 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -52,10 +54,28 @@ class ZonedDaysTest {
         @Test
         void shouldIdentifyTransitionDaysCorrectly() {
             LocalDate springTransition = LocalDate.of(2026, 3, 29);
+            LocalDate autumnTransition = LocalDate.of(2026, 10, 25);
             LocalDate regularDay = LocalDate.of(2026, 6, 15);
 
             assertTrue(ZonedDays.isTransitionDay(springTransition, rome));
+            assertTrue(ZonedDays.isTransitionDay(autumnTransition, rome));
             assertFalse(ZonedDays.isTransitionDay(regularDay, rome));
+        }
+
+        @Test
+        void shouldClassifyStandardShortAndLongDays() {
+            LocalDate springTransition = LocalDate.of(2026, 3, 29);
+            LocalDate autumnTransition = LocalDate.of(2026, 10, 25);
+            LocalDate regularDay = LocalDate.of(2026, 6, 15);
+
+            assertTrue(ZonedDays.isStandardDay(regularDay, rome));
+            assertFalse(ZonedDays.isStandardDay(springTransition, rome));
+
+            assertTrue(ZonedDays.isShortDay(springTransition, rome));
+            assertFalse(ZonedDays.isShortDay(autumnTransition, rome));
+
+            assertTrue(ZonedDays.isLongDay(autumnTransition, rome));
+            assertFalse(ZonedDays.isLongDay(springTransition, rome));
         }
 
         @Test
@@ -66,6 +86,67 @@ class ZonedDaysTest {
             assertEquals(0, start.getHour());
             assertEquals(0, start.getMinute());
             assertEquals(rome, start.getZone());
+        }
+
+        @Test
+        void shouldHandleSafeStartOfNextDay() {
+            LocalDate date = LocalDate.of(2026, 1, 1);
+            ZonedDateTime start = ZonedDays.getSafeStartOfNextDay(date, rome);
+
+            assertEquals(LocalDate.of(2026, 1, 2), start.toLocalDate());
+            assertEquals(0, start.getHour());
+            assertEquals(0, start.getMinute());
+            assertEquals(rome, start.getZone());
+        }
+
+        @Test
+        void shouldReturnActualDurationOfDay() {
+            assertEquals(Duration.ofHours(24), ZonedDays.durationOfDay(LocalDate.of(2026, 6, 15), rome));
+            assertEquals(Duration.ofHours(23), ZonedDays.durationOfDay(LocalDate.of(2026, 3, 29), rome));
+            assertEquals(Duration.ofHours(25), ZonedDays.durationOfDay(LocalDate.of(2026, 10, 25), rome));
+        }
+
+        @Test
+        void shouldCheckWhetherInstantFallsInsideLocalDay() {
+            LocalDate date = LocalDate.of(2026, 6, 15);
+            Instant inside = ZonedDateTime.of(2026, 6, 15, 12, 0, 0, 0, rome).toInstant();
+            Instant endBoundary = ZonedDays.getSafeStartOfNextDay(date, rome).toInstant();
+
+            assertTrue(ZonedDays.contains(date, rome, inside));
+            assertFalse(ZonedDays.contains(date, rome, endBoundary));
+        }
+
+        @Test
+        void shouldReturnSpecificIntervalStart() {
+            LocalDate date = LocalDate.of(2026, 6, 15);
+
+            ZonedDateTime start = ZonedDays.intervalStart(date, rome, Duration.ofMinutes(15), 6);
+
+            assertEquals(ZonedDateTime.of(2026, 6, 15, 1, 30, 0, 0, rome), start);
+        }
+
+        @Test
+        void shouldReturnRepeatedLocalTimesOnAutumnTransition() {
+            LocalDate date = LocalDate.of(2026, 10, 25);
+
+            ZonedDateTime firstTwoAm = ZonedDays.intervalStart(date, rome, Duration.ofHours(1), 2);
+            ZonedDateTime secondTwoAm = ZonedDays.intervalStart(date, rome, Duration.ofHours(1), 3);
+
+            assertEquals(2, firstTwoAm.getHour());
+            assertEquals("+02:00", firstTwoAm.getOffset().toString());
+            assertEquals(2, secondTwoAm.getHour());
+            assertEquals("+01:00", secondTwoAm.getOffset().toString());
+        }
+
+        @Test
+        void shouldReturnAllIntervalStarts() {
+            LocalDate date = LocalDate.of(2026, 3, 29);
+
+            List<ZonedDateTime> starts = ZonedDays.intervalStarts(date, rome, Duration.ofHours(1));
+
+            assertEquals(23, starts.size());
+            assertEquals(ZonedDays.getSafeStartOfDay(date, rome), starts.getFirst());
+            assertEquals(ZonedDateTime.of(2026, 3, 29, 23, 0, 0, 0, rome), starts.getLast());
         }
     }
 
@@ -110,6 +191,16 @@ class ZonedDaysTest {
             
             assertThrows(NullPointerException.class, () -> 
                 ZonedDays.countIntervalsInDay(date, null, hour)
+            );
+        }
+
+        @Test
+        @DisplayName("Should throw exception for interval index outside the day")
+        void testIntervalStartIndexOutsideDayThrows() {
+            LocalDate date = LocalDate.of(2026, 6, 15);
+
+            assertThrows(IllegalArgumentException.class, () ->
+                ZonedDays.intervalStart(date, rome, Duration.ofHours(1), 24)
             );
         }
     }
