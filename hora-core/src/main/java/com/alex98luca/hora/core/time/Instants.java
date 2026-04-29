@@ -1,11 +1,7 @@
 package com.alex98luca.hora.core.time;
 
-import static com.alex98luca.hora.core.time.TimeValidationMessages.DATE;
-import static com.alex98luca.hora.core.time.TimeValidationMessages.END_EXCLUSIVE;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.INSTANT;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.INTERVAL;
-import static com.alex98luca.hora.core.time.TimeValidationMessages.START_INCLUSIVE;
-import static com.alex98luca.hora.core.time.TimeValidationMessages.ZONE;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.mustBePositive;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.mustNotBeNull;
 
@@ -42,51 +38,6 @@ public final class Instants {
     }
 
     /**
-     * Returns the first valid instant of a local day in the provided zone.
-     * This is DST-safe: if local midnight is skipped, java.time returns the
-     * first valid time for that date.
-     */
-    public static Instant startOfDay(LocalDate date, ZoneId zone) {
-        Objects.requireNonNull(date, mustNotBeNull(DATE));
-        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
-        return date.atStartOfDay(zone).toInstant();
-    }
-
-    /**
-     * Returns the exclusive end instant of a local day in the provided zone.
-     * Prefer this over 23:59:59.999 style end-of-day values.
-     */
-    public static Instant startOfNextDay(LocalDate date, ZoneId zone) {
-        Objects.requireNonNull(date, mustNotBeNull(DATE));
-        Objects.requireNonNull(zone, mustNotBeNull(ZONE));
-        return startOfDay(date.plusDays(1), zone);
-    }
-
-    /**
-     * Returns the actual duration of a local day in the provided zone.
-     * On DST transition days this can be 23h or 25h instead of 24h.
-     */
-    public static Duration durationOfDay(LocalDate date, ZoneId zone) {
-        return Duration.between(startOfDay(date, zone), startOfNextDay(date, zone));
-    }
-
-    /**
-     * Checks whether an instant is inside a half-open range:
-     * startInclusive <= instant < endExclusive.
-     */
-    public static boolean isWithin(Instant instant, Instant startInclusive, Instant endExclusive) {
-        Objects.requireNonNull(instant, mustNotBeNull(INSTANT));
-        Objects.requireNonNull(startInclusive, mustNotBeNull(START_INCLUSIVE));
-        Objects.requireNonNull(endExclusive, mustNotBeNull(END_EXCLUSIVE));
-
-        if (endExclusive.isBefore(startInclusive)) {
-            throw new IllegalArgumentException("endExclusive must not be before startInclusive");
-        }
-
-        return !instant.isBefore(startInclusive) && instant.isBefore(endExclusive);
-    }
-
-    /**
      * Floors an instant to the previous aligned interval boundary, using the Unix epoch as origin.
      */
     public static Instant floorToInterval(Instant instant, Duration interval) {
@@ -112,23 +63,6 @@ public final class Instants {
     public static Instant ceilToInterval(Instant instant, Duration interval) {
         Instant floored = floorToInterval(instant, interval);
         return floored.equals(instant) ? instant : floored.plus(interval);
-    }
-
-    /**
-     * Returns the zero-based interval index of an instant inside a local day.
-     */
-    public static long intervalIndexInDay(Instant instant, LocalDate date, ZoneId zone, Duration interval) {
-        Objects.requireNonNull(instant, mustNotBeNull(INSTANT));
-        validateInterval(interval);
-
-        Instant dayStart = startOfDay(date, zone);
-        Instant dayEnd = startOfNextDay(date, zone);
-
-        if (!isWithin(instant, dayStart, dayEnd)) {
-            throw new IllegalArgumentException("instant must be within the requested local day");
-        }
-
-        return Duration.between(dayStart, instant).dividedBy(interval);
     }
 
     private static void validateInterval(Duration duration) {
