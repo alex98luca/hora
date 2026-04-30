@@ -1,12 +1,12 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.encoding;
 
 import static com.alex98luca.hora.core.ValidationMessages.mustNotBeNull;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.CHARSET;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.DATA;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.ENCODED_DATA;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.INPUT;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.OUTPUT;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.VARIANT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.CHARSET;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.DATA;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.ENCODED_DATA;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.INPUT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.OUTPUT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.VARIANT;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;

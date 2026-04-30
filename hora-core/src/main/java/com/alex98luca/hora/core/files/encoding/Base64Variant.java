@@ -1,4 +1,4 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.encoding;
 
 import java.util.Base64;
 

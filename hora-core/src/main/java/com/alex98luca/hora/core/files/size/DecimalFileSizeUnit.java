@@ -1,6 +1,6 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.size;
 
-import static com.alex98luca.hora.core.files.FileSizeBases.DECIMAL;
+import static com.alex98luca.hora.core.files.size.FileSizeBases.DECIMAL;
 
 public enum DecimalFileSizeUnit implements FileSizeUnit {
     BYTE(1L, "B"),

@@ -1,4 +1,4 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.size;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

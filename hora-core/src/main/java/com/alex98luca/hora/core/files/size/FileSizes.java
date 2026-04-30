@@ -1,13 +1,13 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.size;
 
 import static com.alex98luca.hora.core.ValidationMessages.mustBePositiveOrZero;
 import static com.alex98luca.hora.core.ValidationMessages.mustNotBeNull;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.AMOUNT;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.BYTES;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.FROM_UNIT;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.SCALE;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.TO_UNIT;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.UNIT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.AMOUNT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.BYTES;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.FROM_UNIT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.SCALE;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.TO_UNIT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.UNIT;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

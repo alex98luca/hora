@@ -1,12 +1,12 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.compression;
 
 import static com.alex98luca.hora.core.ValidationMessages.mustNotBeNull;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.ALGORITHM;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.CHARSET;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.COMPRESSED_DATA;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.DATA;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.INPUT;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.OUTPUT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.ALGORITHM;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.CHARSET;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.COMPRESSED_DATA;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.DATA;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.INPUT;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.OUTPUT;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

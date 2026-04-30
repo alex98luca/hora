@@ -1,6 +1,6 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.size;
 
-import static com.alex98luca.hora.core.files.FileSizeBases.BINARY;
+import static com.alex98luca.hora.core.files.size.FileSizeBases.BINARY;
 
 public enum BinaryFileSizeUnit implements FileSizeUnit {
     BYTE(1L, "B"),

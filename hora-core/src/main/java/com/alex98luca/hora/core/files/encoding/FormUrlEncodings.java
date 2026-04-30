@@ -1,9 +1,9 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.encoding;
 
 import static com.alex98luca.hora.core.ValidationMessages.mustNotBeNull;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.CHARSET;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.DATA;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.ENCODED_DATA;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.CHARSET;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.DATA;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.ENCODED_DATA;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;

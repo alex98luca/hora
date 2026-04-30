@@ -1,4 +1,4 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.encoding;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;

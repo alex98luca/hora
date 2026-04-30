@@ -1,10 +1,10 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.encoding;
 
 import static com.alex98luca.hora.core.ValidationMessages.mustNotBeNull;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.CHARSET;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.DATA;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.ENCODED_DATA;
-import static com.alex98luca.hora.core.files.FilesValidationMessages.LETTER_CASE;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.CHARSET;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.DATA;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.ENCODED_DATA;
+import static com.alex98luca.hora.core.files.internal.FilesValidationMessages.LETTER_CASE;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

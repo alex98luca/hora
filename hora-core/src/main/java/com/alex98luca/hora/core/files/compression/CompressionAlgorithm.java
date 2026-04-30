@@ -1,4 +1,4 @@
-package com.alex98luca.hora.core.files;
+package com.alex98luca.hora.core.files.compression;
 
 /**
  * Compression formats supported by {@link Compressions}.
