@@ -1,11 +1,11 @@
 package com.alex98luca.hora.core.time;
 
+import static com.alex98luca.hora.core.ValidationMessages.mustBePositive;
+import static com.alex98luca.hora.core.ValidationMessages.mustNotBeNull;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.DATE;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.INSTANT;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.PERIOD_DURATION;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.ZONE;
-import static com.alex98luca.hora.core.time.TimeValidationMessages.mustBePositive;
-import static com.alex98luca.hora.core.time.TimeValidationMessages.mustNotBeNull;
 
 import java.time.Duration;
 import java.time.Instant;

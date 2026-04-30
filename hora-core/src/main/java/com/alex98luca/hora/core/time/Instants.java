@@ -1,9 +1,9 @@
 package com.alex98luca.hora.core.time;
 
+import static com.alex98luca.hora.core.ValidationMessages.mustBePositive;
+import static com.alex98luca.hora.core.ValidationMessages.mustNotBeNull;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.INSTANT;
 import static com.alex98luca.hora.core.time.TimeValidationMessages.INTERVAL;
-import static com.alex98luca.hora.core.time.TimeValidationMessages.mustBePositive;
-import static com.alex98luca.hora.core.time.TimeValidationMessages.mustNotBeNull;
 
 import java.time.*;
 import java.util.Objects;
@@ -20,7 +20,7 @@ public final class Instants {
      * @throws IllegalArgumentException if the type is unsupported.
      */
     public static Instant toUtcMidnight(Object temporal) {
-        Objects.requireNonNull(temporal, "temporal object must not be null");
+        Objects.requireNonNull(temporal, mustNotBeNull("temporal object"));
 
         LocalDate date = switch (temporal) {
             case LocalDate ld -> ld;
