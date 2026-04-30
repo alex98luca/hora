@@ -8,12 +8,15 @@ final class FilesValidationMessages {
     static final String CHARSET = "charset";
     static final String COMPRESSED_DATA = "compressedData";
     static final String DATA = "data";
+    static final String ENCODED_DATA = "encodedData";
     static final String FROM_UNIT = "fromUnit";
     static final String INPUT = "input";
+    static final String LETTER_CASE = "letterCase";
     static final String OUTPUT = "output";
     static final String SCALE = "scale";
     static final String TO_UNIT = "toUnit";
     static final String UNIT = "unit";
+    static final String VARIANT = "variant";
 
     private FilesValidationMessages() {}
 }
