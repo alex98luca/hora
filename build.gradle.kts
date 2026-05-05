@@ -7,9 +7,24 @@ sonar {
         property("sonar.projectKey", "alex98luca_hora")
         property("sonar.organization", "alex98luca")
         property("sonar.host.url", "https://sonarcloud.io")
-        property(
-            "sonar.coverage.jacoco.xmlReportPaths",
-            "hora-core/build/reports/jacoco/test/jacocoTestReport.xml",
-        )
+    }
+}
+
+dependencyLocking {
+    lockAllConfigurations()
+}
+
+subprojects {
+    dependencyLocking {
+        lockAllConfigurations()
+    }
+
+    sonar {
+        properties {
+            property(
+                "sonar.coverage.jacoco.xmlReportPaths",
+                layout.buildDirectory.file("reports/jacoco/test/jacocoTestReport.xml").get().asFile,
+            )
+        }
     }
 }
